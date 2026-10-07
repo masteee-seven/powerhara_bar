@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パワハラバー『Tsumesho-詰め所-』| 合法的にストレス発散できるエンタメBAR</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;700;900&family=Yuji+Boku&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#FFD700',
+              neonYellow: '#FFE500',
+              red: '#E50914',
+              crimson: '#B30006',
+              dark: '#111113',
+              darker: '#0a0a0c',
+              paper: '#FFFDF0',
+            }
+          },
+          fontFamily: {
+            sans: ['"M PLUS Rounded 1c"', 'sans-serif'],
+            impact: ['"Dela Gothic One"', 'cursive'],
+            brush: ['"Yuji Boku"', 'serif']
+          },
+          animation: {
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'neon-flicker': 'flicker 2s infinite alternate',
+          },
+          keyframes: {
+            flicker: {
+              '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': {
+                textShadow: '0 0 5px #fff, 0 0 10px #ff0055, 0 0 20px #ff0055, 0 0 40px #ff0055',
+                opacity: '1'
+              },
+              '20%, 24%, 55%': {
+                textShadow: 'none',
+                opacity: '0.4'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 画面シェイクアニメーション（机ドン用） */
+    @keyframes deskSlam {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-10px, 12px) rotate(-1.5deg); }
+      30% { transform: translate(12px, -8px) rotate(1.5deg); }
+      45% { transform: translate(-8px, 6px) rotate(-1deg); }
+      60% { transform: translate(6px, -4px) rotate(0.5deg); }
+      75% { transform: translate(-3px, 2px) rotate(0deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .shake-active {
+      animation: deskSlam 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    /* 飛び散る粉砕パーティクル */
+    .shred-particle {
+      position: absolute;
+      pointer-events: none;
+      animation: shredFly 0.8s ease-out forwards;
+    }
+    @keyframes shredFly {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot)); opacity: 0; }
+    }
+
+    /* ネオン枠線 */
+    .neon-border-red {
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.4), inset 0 0 15px rgba(229, 9, 20, 0.2);
+    }
+    .neon-border-yellow {
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.4), inset 0 0 12px rgba(255, 215, 0, 0.2);
+    }
+
+    /* 提灯ゆらゆら */
+    @keyframes lanternSwing {
+      0% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+      100% { transform: rotate(-3deg); }
+    }
+    .swing {
+      animation: lanternSwing 3.5s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    .swing-delay {
+      animation: lanternSwing 3.8s ease-in-out infinite reverse;
+      transform-origin: top center;
+    }
+
+    /* ざらついたノイズオーバーレイ */
+    .noise-bg {
+      background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+
+<body class="bg-brand-darker text-gray-100 font-sans selection:bg-brand-yellow selection:text-black overflow-x-hidden min-h-screen">
+
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/85 backdrop-blur-md border-b-2 border-brand-yellow/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="text-2xl">🍺</span>
+        <div class="flex flex-col">
+          <span class="text-[10px] tracking-wider text-brand-yellow font-bold uppercase">合法ストレス発散居酒屋</span>
+          <span class="text-xl sm:text-2xl font-impact tracking-wider text-white group-hover:text-brand-yellow transition-colors">
+            Tsumesho<span class="text-brand-red">-詰め所-</span>
+          </span>
+        </div>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-6 font-bold text-sm">
+        <a href="#rules" class="hover:text-brand-yellow transition-colors">3つの掟</a>
+        <a href="#gimmick" class="text-brand-yellow hover:underline flex items-center gap-1"><i data-lucide="zap" class="w-4 h-4"></i>体験ギミック</a>
+        <a href="#plans" class="hover:text-brand-yellow transition-colors">料金・プラン</a>
+        <a href="#zones" class="hover:text-brand-yellow transition-colors">店内ゾーン</a>
+        <a href="#menu" class="hover:text-brand-yellow transition-colors">メニュー</a>
+        <button onclick="openBookingModal()" class="bg-brand-red hover:bg-brand-crimson text-white font-impact px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-all flex items-center gap-1.5 border border-yellow-400">
+          <i data-lucide="door-open" class="w-4 h-4"></i> 入室予約
+        </button>
+      </nav>
+
+      <button id="mobileMenuBtn" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10" aria-label="Menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-zinc-900 border-b border-brand-yellow/30 px-6 py-4 space-y-3 font-bold">
+      <a href="#rules" class="block py-1 hover:text-brand-yellow" onclick="toggleMenu()">3つの掟</a>
+      <a href="#gimmick" class="block py-1 text-brand-yellow" onclick="toggleMenu()">体験ギミック（机ドン）</a>
+      <a href="#plans" class="block py-1 hover:text-brand-yellow" onclick="toggleMenu()">料金・プラン</a>
+      <a href="#zones" class="block py-1 hover:text-brand-yellow" onclick="toggleMenu()">店内ゾーン＆ステージ</a>
+      <a href="#menu" class="block py-1 hover:text-brand-yellow" onclick="toggleMenu()">客層別メニュー＆フード</a>
+      <button onclick="openBookingModal(); toggleMenu();" class="w-full text-center bg-brand-red text-white py-2.5 rounded-lg font-impact mt-2">
+        今すぐ入室予約
+      </button>
+    </div>
+  </header>
+
+  <main class="pt-16">
+    <section class="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-brand-dark via-zinc-950 to-brand-darker noise-bg px-4 py-16">
+      
+      <!-- 居酒屋赤提灯（装飾） -->
+      <div class="absolute top-4 left-6 sm:left-14 swing hidden sm:block pointer-events-none z-10">
+        <div class="w-1 h-12 bg-zinc-700 mx-auto"></div>
+        <div class="w-20 h-28 bg-brand-red rounded-3xl border-2 border-yellow-300 shadow-[0_0_25px_rgba(229,9,20,0.8)] flex flex-col items-center justify-center text-white font-impact text-sm leading-tight p-2 text-center">
+          <span class="text-xs">完全</span>
+          <span>合法</span>
+          <span>発散</span>
+        </div>
+      </div>
+      <div class="absolute top-4 right-6 sm:right-14 swing-delay hidden sm:block pointer-events-none z-10">
+        <div class="w-1 h-12 bg-zinc-700 mx-auto"></div>
+        <div class="w-20 h-28 bg-brand-red rounded-3xl border-2 border-yellow-300 shadow-[0_0_25px_rgba(229,9,20,0.8)] flex flex-col items-center justify-center text-white font-impact text-sm leading-tight p-2 text-center">
+          <span class="text-xs">言われ</span>
+          <span>役</span>
+          <span>在籍</span>
+        </div>
+      </div>
+
+      <!-- 背景ネオン装飾 -->
+      <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none select-none">
+        <span class="text-[18vw] font-impact text-brand-yellow font-black tracking-widest">TSUMESHO</span>
+      </div>
+
+      <div class="max-w-5xl mx-auto text-center relative z-20 space-y-6">
+        <!-- 警告バッジ -->
+        <div class="inline-flex items-center gap-2 bg-brand-red/20 border-2 border-brand-red text-red-400 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider backdrop-blur-sm animate-pulse-fast">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-red"></i>
+          <span>店内に本人は一切おりません。安全に発散してください。</span>
+        </div>
+
+        <!-- キャッチコピー -->
+        <div class="space-y-3">
+          <p class="text-brand-yellow font-impact text-lg sm:text-2xl tracking-widest drop-shadow-[0_2px_10px_rgba(255,215,0,0.5)]">
+            ＼ 暴力ゼロ、暴言のみ。ただし相手は人形 ／
+          </p>
+          <h1 class="text-4xl sm:text-6xl md:text-7xl font-impact tracking-tight text-white leading-none">
+            パワハラバー<br>
+            <span class="text-brand-yellow inline-block mt-2 underline decoration-brand-red decoration-wavy decoration-4">
+              『Tsumesho-詰め所-』
+            </span>
+          </h1>
+        </div>
+
+        <!-- サブコピー -->
+        <p class="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed bg-black/60 p-4 sm:p-6 rounded-2xl border border-zinc-800 backdrop-blur-sm shadow-xl">
+          罵倒していいのは<span class="text-brand-yellow font-bold">サンドバッグ人形（上司・部下・クレーマー役）と<span class="text-brand-yellow font-bold">「言われ役」役者スタッフ</span>だけ。飲み込んだ言葉のすべてを、安全に、合法的に、笑いに変えて今夜「成仏」させましょう。
+        </p>
+
+        <!-- CTAボタン群 -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <button onclick="openBookingModal()" class="w-full sm:w-auto bg-gradient-to-r from-red-600 to-brand-red hover:from-red-500 hover:to-brand-red text-white font-impact text-lg px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(229,9,20,0.6)] hover:scale-105 transition-all flex items-center justify-center gap-2 border-2 border-yellow-400">
+            <i data-lucide="beer" class="w-5 h-5"></i>
+            今すぐ入室（予約する）
+          </button>
+          <a href="#gimmick" class="w-full sm:w-auto bg-zinc-800/90 hover:bg-zinc-700 text-brand-yellow border-2 border-brand-yellow/50 font-impact text-lg px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2">
+            <i data-lucide="hammer" class="w-5 h-5"></i>
+            机ドンを試す
+          </a>
+        </div>
+
+        <!-- 3大特徴アイコンバッジ -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 max-w-2xl mx-auto pt-6 text-center text-xs sm:text-sm font-bold">
+          <div class="bg-zinc-900/80 border border-zinc-800 p-2.5 rounded-xl">
+            <div class="text-xl sm:text-2xl mb-1">🥊</div>
+            <div>指定グッズ叩きOK</div>
+          </div>
+          <div class="bg-zinc-900/80 border border-zinc-800 p-2.5 rounded-xl">
+            <div class="text-xl sm:text-2xl mb-1">🎭</div>
+            <div>プロ役者の言われ役</div>
+          </div>
+          <div class="bg-zinc-900/80 border border-zinc-800 p-2.5 rounded-xl">
+            <div class="text-xl sm:text-2xl mb-1">🤝</div>
+            <div>最後はお疲れ様でした</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" class="py-20 px-4 max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-brand-red font-bold text-sm tracking-widest uppercase bg-red-950/60 px-3 py-1 rounded-full border border-red-800">Entrance Notice</span>
+        <h2 class="text-3xl sm:text-4xl font-impact text-white mt-2 flex items-center justify-center gap-2">
+          <span>⚠️</span> 入口に掲示される「3つの掟」 <span>⚠️</span>
+        </h2>
+        <p class="text-gray-400 text-sm mt-1">平和に安全にスッキリするための絶対遵守ルールです</p>
+      </div>
+
+      <!-- 居酒屋看板風パネル -->
+      <div class="relative bg-gradient-to-b from-amber-100 to-amber-50 text-zinc-950 p-6 sm:p-10 rounded-3xl border-8 border-yellow-500 shadow-[0_15px_40px_rgba(0,0,0,0.8)]">
+        <!-- 看板吊り紐風ピン -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-zinc-800 rounded-full border-4 border-yellow-600 shadow-md"></div>
+
+        <div class="space-y-6">
+          <!-- 掟 1 -->
+          <div class="flex items-start gap-4 p-4 sm:p-5 bg-white/80 rounded-2xl border-2 border-amber-300 shadow-sm transition hover:bg-white">
+            <span class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-brand-red text-white font-impact text-xl sm:text-2xl rounded-full flex items-center justify-center shadow-md">
+              1
+            </span>
+            <div>
+              <h3 class="font-impact text-lg sm:text-2xl text-zinc-900 flex items-center gap-2">
+                暴力NG
+                <span class="text-xs sm:text-sm font-sans font-bold bg-yellow-200 text-yellow-900 px-2.5 py-0.5 rounded-full">叩きグッズはOK！</span>
+              </h3>
+              <p class="text-zinc-700 text-sm sm:text-base mt-1 font-medium leading-relaxed">
+                人身への直接攻撃は厳禁！ただし、備え付けの<span class="font-bold text-red-600 underline">机ドン・ハリセン・ピコピコハンマー等の指定グッズ</span>は思い切り振り抜いてOKです。
+              </p>
+            </div>
+          </div>
+
+          <!-- 掟 2 -->
+          <div class="flex items-start gap-4 p-4 sm:p-5 bg-white/80 rounded-2xl border-2 border-amber-300 shadow-sm transition hover:bg-white">
+            <span class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-brand-red text-white font-impact text-xl sm:text-2xl rounded-full flex items-center justify-center shadow-md">
+              2
+            </span>
+            <div>
+              <h3 class="font-impact text-lg sm:text-2xl text-zinc-900 flex items-center gap-2">
+                実名・実在人物の特定NG
+                <span class="text-xs sm:text-sm font-sans font-bold bg-yellow-200 text-yellow-900 px-2.5 py-0.5 rounded-full">肩書き推奨</span>
+              </h3>
+              <p class="text-zinc-700 text-sm sm:text-base mt-1 font-medium leading-relaxed">
+                トラブル防止のためフルネーム暴露は禁止。<span class="font-bold text-zinc-900">「うちのクソ部長」「理不尽な取引先A社」「先週のクレーマー」</span>など代名詞・役職で盛大に罵倒してください。
+              </p>
+            </div>
+          </div>
+
+          <!-- 掟 3 -->
+          <div class="flex items-start gap-4 p-4 sm:p-5 bg-white/80 rounded-2xl border-2 border-amber-300 shadow-sm transition hover:bg-white">
+            <span class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-brand-red text-white font-impact text-xl sm:text-2xl rounded-full flex items-center justify-center shadow-md">
+              3
+            </span>
+            <div>
+              <h3 class="font-impact text-lg sm:text-2xl text-zinc-900 flex items-center gap-2">
+                帰り際は必ず「お疲れ様でした」で締める
+                <span class="text-xs sm:text-sm font-sans font-bold bg-green-200 text-green-900 px-2.5 py-0.5 rounded-full">ノーサイド精神</span>
+              </h3>
+              <p class="text-zinc-700 text-sm sm:text-base mt-1 font-medium leading-relaxed">
+                ドアを出る瞬間に全員で乾杯＆<span class="font-bold text-red-600">「お疲れ様でした！」</span>。恨みを明日に持ち越さず、明日からまた強く生きるための儀式です。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center bg-amber-200/70 p-3 rounded-xl border border-amber-400 font-bold text-xs sm:text-sm text-amber-950">
+          ※ 万が一ルールを守っていただけない場合、マスターが優しく「退職勧告（退店）」を出します。
+        </div>
+      </div>
+    </section>
+
+    <section id="gimmick" class="py-16 px-4 bg-zinc-900/60 border-y border-zinc-800">
+      <div class="max-w-6xl mx-auto space-y-12">
+        <div class="text-center">
+          <span class="text-brand-yellow font-bold text-sm tracking-widest uppercase">Interactive Stress Relief</span>
+          <h2 class="text-3xl sm:text-5xl font-impact text-white mt-1">
+            オンライン体験！ストレス発散ギミック
+          </h2>
+          <p class="text-gray-400 text-sm sm:text-base mt-2">お店に行く前に、まずはここで日頃の鬱憤をぶつけてみましょう</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          
+          <!-- ギミック1: 机ドン・シミュレーター -->
+          <div class="bg-zinc-950 p-6 sm:p-8 rounded-3xl border-2 border-zinc-800 relative overflow-hidden flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="bg-red-500/20 text-red-400 border border-red-500/40 text-xs px-2.5 py-1 rounded-full font-bold">
+                  音が出ます（Web Audio）
+                </span>
+                <span class="text-zinc-500 text-xs">累計ドン数: <span id="slamCounter" class="text-brand-yellow font-impact text-base">0</span> 回</span>
+              </div>
+              <h3 class="text-2xl font-impact text-white flex items-center gap-2">
+                <i data-lucide="hand-metal" class="w-6 h-6 text-brand-yellow"></i>
+                合法「机ドン」シミュレーター
+              </h3>
+              <p class="text-gray-400 text-xs sm:text-sm">
+                ボタンを押すと画面が激震！特製の防音・衝撃吸収テーブルの感触をブラウザ上で再現。
+              </p>
+            </div>
+
+            <!-- ドン！演出ビジュアルエリア -->
+            <div id="deskVisual" class="my-8 py-12 rounded-2xl bg-zinc-900 border-2 border-dashed border-zinc-700 flex flex-col items-center justify-center relative select-none cursor-pointer group hover:border-brand-red transition-all">
+              <div id="slamWord" class="font-impact text-5xl sm:text-7xl text-brand-red opacity-0 scale-50 transition-all duration-150 absolute pointer-events-none drop-shadow-[0_0_20px_rgba(229,9,20,0.8)]">
+                ドォォン！！
+              </div>
+              <div class="text-6xl group-hover:scale-110 transition-transform">🪵</div>
+              <p class="text-zinc-400 text-xs font-bold mt-2">タップでも机ドン可能</p>
+            </div>
+
+            <button id="slamBtn" class="w-full bg-brand-yellow hover:bg-yellow-400 text-black font-impact text-xl py-4 rounded-2xl shadow-[0_0_20px_rgba(255,215,0,0.4)] active:scale-95 transition-all flex items-center justify-center gap-2">
+              <i data-lucide="volume-2" class="w-6 h-6"></i>
+              机を思いきり叩く（机ドン！）
+            </button>
+          </div>
+
+          <!-- ギミック2: 愚痴・言えなかった言葉粉砕機 -->
+          <div class="bg-zinc-950 p-6 sm:p-8 rounded-3xl border-2 border-zinc-800 flex flex-col justify-between relative overflow-hidden">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 text-xs px-2.5 py-1 rounded-full font-bold">
+                  人形粉砕モード
+                </span>
+                <span class="text-zinc-500 text-xs">成仏させた愚痴: <span id="shredCounter" class="text-brand-red font-impact text-base">0</span> 個</span>
+              </div>
+              <h3 class="text-2xl font-impact text-white flex items-center gap-2">
+                <i data-lucide="bomb" class="w-6 h-6 text-brand-red"></i>
+                飲み込んだ言葉の粉砕シュレッダー
+              </h3>
+              <p class="text-gray-400 text-xs sm:text-sm">
+                言えなかった本音を書き込んでください。人形へ全力で投げつけ、完全に破砕・消滅させます。
+              </p>
+            </div>
+
+            <!-- 入力フォームエリア -->
+            <div class="my-6 space-y-3 relative" id="shredContainer">
+              <div class="relative">
+                <textarea id="complaintInput" rows="3" placeholder="例：『定時5分前に今日中って頼むのやめてもらえますか！？』『言った言わないで人のせいにするな！』" class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-yellow rounded-xl p-3 text-sm text-gray-200 outline-none resize-none transition-colors"></textarea>
+                <!-- クイック愚痴タグ -->
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  <span class="text-[11px] text-zinc-500 py-0.5">例文：</span>
+                  <button type="button" onclick="setSample('それ私の仕事ですか？')" class="text-[11px] bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-0.5 rounded-md">それ私の仕事ですか？</button>
+                  <button type="button" onclick="setSample('既読スルーするな！')" class="text-[11px] bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-0.5 rounded-md">既読スルーするな！</button>
+                  <button type="button" onclick="setSample('お客様は神様じゃねぇ！')" class="text-[11px] bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-0.5 rounded-md">お客様は神様じゃねぇ！</button>
+                </div>
+              </div>
+
+              <!-- 粉砕中アニメーション用ステージ -->
+              <div id="shredStage" class="h-14 rounded-xl bg-zinc-900/50 flex items-center justify-center border border-zinc-800 text-zinc-500 text-xs font-bold relative overflow-hidden">
+                <span id="shredStatusText">サンドバッグ人形待機中...🥊</span>
+              </div>
+            </div>
+
+            <button id="shredBtn" class="w-full bg-brand-red hover:bg-red-600 text-white font-impact text-xl py-4 rounded-2xl shadow-[0_0_20px_rgba(229,9,20,0.4)] active:scale-95 transition-all flex items-center justify-center gap-2 border border-yellow-400">
+              <i data-lucide="flame" class="w-6 h-6"></i>
+              人形にぶつけて粉砕消滅！
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="plans" class="py-20 px-4 max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="text-brand-yellow font-bold text-sm tracking-widest uppercase">System & Pricing</span>
+        <h2 class="text-3xl sm:text-5xl font-impact text-white mt-1">
+          料金プラン＆オプション
+        </h2>
+        <p class="text-gray-400 text-sm sm:text-base mt-2">明朗会計！言葉の威力とお時間に合わせてお選びください</p>
+      </div>
+
+      <!-- プランカード一覧 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        
+        <!-- プラン1: ジャブ -->
+        <div class="bg-zinc-900 border-2 border-zinc-800 hover:border-yellow-400/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all hover:-translate-y-1">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="font-impact text-xl text-yellow-400 tracking-wider">🥊 ジャブ</span>
+              <span class="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full font-bold">60分</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-impact text-white mb-4">
+              2,500<span class="text-base text-gray-400 font-sans"> 円</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-6 border-b border-zinc-800 pb-4">
+              まずは軽めに愚痴ってスカッとしたい若手・初心者向けのお手軽コース。
+            </p>
+            <ul class="space-y-3 text-sm text-gray-300 font-medium">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                ソフトドリンク含む飲み放題
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                ミニ暴言ブース利用可
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                ピコピコハンマー無料貸出
+              </li>
+            </ul>
+          </div>
+          <button onclick="selectPlan('ジャブ（2,500円）')" class="mt-8 w-full bg-zinc-800 hover:bg-brand-yellow hover:text-black text-white font-impact py-3 rounded-xl transition-colors">
+            このプランで予約
+          </button>
+        </div>
+
+        <!-- プラン2: ストレート（イチオシ） -->
+        <div class="bg-gradient-to-b from-zinc-900 to-zinc-950 border-3 border-brand-red rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative shadow-[0_0_30px_rgba(229,9,20,0.3)] transition-all hover:-translate-y-1">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-red text-white text-xs font-impact px-4 py-1 rounded-full uppercase tracking-wider border border-yellow-300">
+            ★ 一番人気！おすすめ
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-4 mt-2">
+              <span class="font-impact text-2xl text-white tracking-wider">🥊🥊 ストレート</span>
+              <span class="text-xs bg-red-950 text-red-200 border border-red-800 px-3 py-1 rounded-full font-bold">90分</span>
+            </div>
+            <div class="text-4xl sm:text-5xl font-impact text-brand-yellow mb-4">
+              4,500<span class="text-base text-gray-400 font-sans"> 円</span>
+            </div>
+            <p class="text-xs text-gray-300 mb-6 border-b border-zinc-800 pb-4">
+              アルコールで喉を潤し、本格防音の叱責ルームで魂の叫びをぶつける王道コース。
+            </p>
+            <ul class="space-y-3 text-sm text-gray-200 font-medium">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-red"></i>
+                <span class="font-bold text-white">酒類含む全ドリンク飲み放題</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-red"></i>
+                <span class="font-bold text-yellow-300">叱責ルーム利用（15分付き）</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-red"></i>
+                サンドバッグ人形＆役者対面
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-red"></i>
+                机ドン・ハリセンフル装備
+              </li>
+            </ul>
+          </div>
+          <button onclick="selectPlan('ストレート（4,500円）')" class="mt-8 w-full bg-brand-red hover:bg-red-500 text-white font-impact py-3.5 rounded-xl shadow-lg transition-colors border border-yellow-300">
+            一番人気で予約
+          </button>
+        </div>
+
+        <!-- プラン3: 退職届 -->
+        <div class="bg-zinc-900 border-2 border-zinc-800 hover:border-yellow-400/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all hover:-translate-y-1">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="font-impact text-xl text-yellow-400 tracking-wider">📄 退職届</span>
+              <span class="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full font-bold">120分</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-impact text-white mb-4">
+              7,000<span class="text-base text-gray-400 font-sans"> 円</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-6 border-b border-zinc-800 pb-4">
+              全部入り！笑いと絶叫で完全成仏し、清々しい明日を手に入れるプレミアムコース。
+            </p>
+            <ul class="space-y-3 text-sm text-gray-300 font-medium">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                全種飲み放題＋名物フード1品
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                叱責ルーム優先案内（30分）
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                コンプラ漫才・コントVIP席観覧
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-brand-yellow"></i>
+                <span class="text-yellow-300 font-bold">「お疲れさまでした証明書」授与</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="selectPlan('退職届プラン（7,000円）')" class="mt-8 w-full bg-zinc-800 hover:bg-brand-yellow hover:text-black text-white font-impact py-3 rounded-xl transition-colors">
+            このプランで予約
+          </button>
+        </div>
+
+      </div>
+
+      <!-- 団体貸切バナー -->
+      <div class="bg-gradient-to-r from-amber-950/60 via-zinc-900 to-amber-950/60 border border-yellow-500/40 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
+        <div class="space-y-1 text-center sm:text-left">
+          <div class="flex items-center justify-center sm:justify-start gap-2">
+            <span class="bg-yellow-400 text-black text-xs font-impact px-2.5 py-0.5 rounded">団体プラン</span>
+            <h4 class="font-impact text-lg sm:text-xl text-white">部署ごと丸ごと貸切！「チーム反省＆発散会」</h4>
+          </div>
+          <p class="text-gray-300 text-xs sm:text-sm">5名様以上でフロア丸ごと貸切OK。役職シャッフル飲み会にも対応します。</p>
+        </div>
+        <div class="text-center sm:text-right flex-shrink-0">
+          <div class="text-2xl font-impact text-brand-yellow">お一人様 3,500円〜</div>
+          <span class="text-zinc-400 text-xs">※ 人数・時間応相談</span>
+        </div>
+      </div>
+
+      <!-- オプション一覧 -->
+      <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-6 sm:p-8">
+        <h3 class="font-impact text-2xl text-white mb-6 flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-6 h-6 text-brand-yellow"></i>
+          追加オプション
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="bg-zinc-900/90 p-4 rounded-xl border border-zinc-800 hover:border-yellow-500/50 transition">
+            <div class="text-brand-yellow font-impact text-lg">机ドンテーブル</div>
+            <div class="text-xl font-bold text-white mt-1">500<span class="text-xs text-gray-400">円</span></div>
+            <p class="text-xs text-gray-400 mt-2">防音・衝撃吸収仕様。手首を痛めず心ゆくまで机ドンが可能。</p>
+          </div>
+
+          <div class="bg-zinc-900/90 p-4 rounded-xl border border-zinc-800 hover:border-yellow-500/50 transition">
+            <div class="text-brand-yellow font-impact text-lg">叱責ルーム延長</div>
+            <div class="text-xl font-bold text-white mt-1">500<span class="text-xs text-gray-400">円 / 10分</span></div>
+            <p class="text-xs text-gray-400 mt-2">まだまだ言い足りない熱いあなたに。防音個室の延長チケット。</p>
+          </div>
+
+          <div class="bg-zinc-900/90 p-4 rounded-xl border border-zinc-800 hover:border-yellow-500/50 transition">
+            <div class="text-brand-yellow font-impact text-lg">「言われ役」指名</div>
+            <div class="text-xl font-bold text-white mt-1">1,000<span class="text-xs text-gray-400">円</span></div>
+            <p class="text-xs text-gray-400 mt-2">【元営業部長風 / ガチ詰め系 / ネチネチ系】から相手役を指名可能。</p>
+          </div>
+
+          <div class="bg-zinc-900/90 p-4 rounded-xl border border-zinc-800 hover:border-yellow-500/50 transition">
+            <div class="text-brand-yellow font-impact text-lg">土下座カード</div>
+            <div class="text-xl font-bold text-white mt-1">300<span class="text-xs text-gray-400">円</span></div>
+            <p class="text-xs text-gray-400 mt-2">提示すると役者スタッフが「本当に申し訳ございませんでした」と本気土下座。</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="zones" class="py-20 px-4 bg-zinc-900/40 border-t border-zinc-800">
+      <div class="max-w-6xl mx-auto space-y-16">
+        
+        <!-- 店内ゾーン案内 -->
+        <div>
+          <div class="text-center mb-12">
+            <span class="text-brand-red font-bold text-sm tracking-widest uppercase">Floor Guide</span>
+            <h2 class="text-3xl sm:text-5xl font-impact text-white mt-1">
+              個性豊かな店内ゾーン
+            </h2>
+            <p class="text-gray-400 text-sm sm:text-base mt-2">気分や怒りの度合いに合わせて使い分けられる4つの空間</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- カウンター -->
+            <div class="bg-zinc-950 p-6 rounded-3xl border border-zinc-800 flex gap-5 items-start">
+              <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-impact text-2xl flex-shrink-0 border border-amber-500/40">
+                🍸
+              </div>
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded">一人客向け</span>
+                <h3 class="text-xl font-impact text-white">カウンター席（マスター全肯定）</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  マスターがあなたの愚痴に「それはひどい上司ですね」「あなたは何一つ悪くないですよ」と100%全肯定の相槌を打ってくれる癒しの止まり木。
+                </p>
+              </div>
+            </div>
+
+            <!-- 叱責ルーム -->
+            <div class="bg-zinc-950 p-6 rounded-3xl border border-brand-red/40 flex gap-5 items-start relative overflow-hidden">
+              <div class="w-14 h-14 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center font-impact text-2xl flex-shrink-0 border border-red-500/40">
+                🥊
+              </div>
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-red-400 bg-red-950/60 px-2 py-0.5 rounded">完全防音個室</span>
+                <h3 class="text-xl font-impact text-white">叱責ルーム</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  サンドバッグ人形＋役者スタッフ相手に大声で思い切り言える防音個室。ご希望の方には録音サービスも（聴き直して爆笑したあとその場で完全消去可能）。
+                </p>
+              </div>
+            </div>
+
+            <!-- ミニステージ -->
+            <div class="bg-zinc-950 p-6 rounded-3xl border border-zinc-800 flex gap-5 items-start">
+              <div class="w-14 h-14 rounded-2xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-impact text-2xl flex-shrink-0 border border-yellow-500/40">
+                🎭
+              </div>
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-yellow-400 bg-yellow-950/60 px-2 py-0.5 rounded">週数回開催</span>
+                <h3 class="text-xl font-impact text-white">ミニステージ</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  笑いでストレスを昇華！芸人によるコンプラ漫才や客席参加型の逆パワハラ劇場など、お酒を片手にゲラゲラ笑えるエンタメ空間。
+                </p>
+              </div>
+            </div>
+
+            <!-- 反省会テーブル -->
+            <div class="bg-zinc-950 p-6 rounded-3xl border border-zinc-800 flex gap-5 items-start">
+              <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-impact text-2xl flex-shrink-0 border border-purple-500/40">
+                🔄
+              </div>
+              <div class="space-y-2">
+                <span class="text-xs font-bold text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded">体験型シート</span>
+                <h3 class="text-xl font-impact text-white">反省会テーブル</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  逆に「言われた側」「詰められた側」の気持ちを体験できるユニークな席。役職を交代して座ることで社内の相互理解がなぜか深まります。
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ミニステージ定期企画一覧 -->
+        <div class="bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <h3 class="font-impact text-2xl text-center text-brand-yellow mb-8 flex items-center justify-center gap-2">
+            <span>🎪</span> ミニステージの定期プログラム <span>🎪</span>
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="border-l-2 border-brand-yellow pl-4 space-y-1">
+              <h4 class="font-impact text-base text-white">コンプラ漫才</h4>
+              <p class="text-xs text-gray-400">
+                ボケが昭和のモーレツ上司、ツッコミが令和の超冷静部下。「それ今は一発アウトです！」が決め台詞。
+              </p>
+            </div>
+
+            <div class="border-l-2 border-brand-red pl-4 space-y-1">
+              <h4 class="font-impact text-base text-white">逆パワハラ劇場</h4>
+              <p class="text-xs text-gray-400">
+                「で、その指示のエビデンスは？」若手部下が上司を理路整然と追い詰める痛快下剋上コント。
+              </p>
+            </div>
+
+            <div class="border-l-2 border-brand-yellow pl-4 space-y-1">
+              <h4 class="font-impact text-base text-white">悩み相談即興ライブ</h4>
+              <p class="text-xs text-gray-400">
+                お客様が紙に書いた匿名の職場の不満・理不尽エピソードを、芸人がその場で即興ネタ化して笑い飛ばします。
+              </p>
+            </div>
+
+            <div class="border-l-2 border-brand-red pl-4 space-y-1">
+              <h4 class="font-impact text-base text-white">叫びの間奏</h4>
+              <p class="text-xs text-gray-400">
+                カラオケの有名曲の間奏部分だけを使って、BGMに乗せて日頃の愚痴を魂を込めてシャウトする大人気企画。
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="menu" class="py-20 px-4 max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="text-brand-yellow font-bold text-sm tracking-widest uppercase">Food & Drink</span>
+        <h2 class="text-3xl sm:text-5xl font-impact text-white mt-1">
+          客層別ドリンク＆名物フード
+        </h2>
+        <p class="text-gray-400 text-sm sm:text-base mt-2">胸に刺さるネーミング！美味しくてクスッと笑えるこだわりのメニュー</p>
+      </div>
+
+      <!-- 客層別ドリンクタブ風リスト -->
+      <div class="mb-14">
+        <h3 class="text-xl font-impact text-brand-yellow mb-6 flex items-center gap-2">
+          <i data-lucide="wine" class="w-5 h-5"></i>
+          世代・立場に寄り添う「客層別おすすめドリンク」
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- ① Z世代 -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-yellow-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded-full">20〜30代 若手社員</span>
+              <span class="text-lg">📱</span>
+            </div>
+            <h4 class="font-impact text-lg text-white mb-2">「Z世代の限界」</h4>
+            <ul class="text-xs text-gray-300 space-y-2 border-t border-zinc-800 pt-3">
+              <li><strong class="text-yellow-300">「既読スルー上司」ハイボール</strong><br><span class="text-zinc-500">（炭酸強めで泡のように返信が消える）</span></li>
+              <li><strong class="text-yellow-300">「それ私の仕事ですか？」レモンサワー</strong><br><span class="text-zinc-500">（酸味の効いた切れ味鋭い一杯）</span></li>
+            </ul>
+            <div class="mt-3 text-[11px] bg-zinc-800 text-zinc-400 p-2 rounded">
+              📸 映える写真スポット（退職届ネオン看板）あり！
+            </div>
+          </div>
+
+          <!-- ② 中間管理職 -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-yellow-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-0.5 rounded-full">30〜40代 中間管理職</span>
+              <span class="text-lg">💼</span>
+            </div>
+            <h4 class="font-impact text-lg text-white mb-2">「中間管理職の涙」</h4>
+            <ul class="text-xs text-gray-300 space-y-2 border-t border-zinc-800 pt-3">
+              <li><strong class="text-yellow-300">「上にも下にも言えない」ブラックラガー</strong><br><span class="text-zinc-500">（苦味の深さが心に染み渡る黒ビール）</span></li>
+              <li><strong class="text-yellow-300">「板挟み」ダブルショット</strong><br><span class="text-zinc-500">（上下の圧力に耐える濃厚リキュール）</span></li>
+            </ul>
+            <div class="mt-3 text-[11px] bg-zinc-800 text-zinc-400 p-2 rounded">
+              💡 叱責ルームで「上司役」を演じ部下の気持ちを知る逆体験も大人気！
+            </div>
+          </div>
+
+          <!-- ③ 昭和の名残 -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-yellow-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold bg-red-950 text-red-300 border border-red-800 px-2.5 py-0.5 rounded-full">50代以上 管理職・経営層</span>
+              <span class="text-lg">🍶</span>
+            </div>
+            <h4 class="font-impact text-lg text-white mb-2">「昭和の名残」</h4>
+            <ul class="text-xs text-gray-300 space-y-2 border-t border-zinc-800 pt-3">
+              <li><strong class="text-yellow-300">「昔はよかった」熱燗</strong><br><span class="text-zinc-500">（語りたい夜にじんわり温まる辛口徳利）</span></li>
+              <li><strong class="text-yellow-300">「俺の若い頃は」ロックウイスキー</strong><br><span class="text-zinc-500">（今は誰も聞いてくれない昔話を語れる一杯）</span></li>
+            </ul>
+            <div class="mt-3 text-[11px] bg-zinc-800 text-zinc-400 p-2 rounded">
+              🎯 実は穴場！現代では言えない世代の貴重な解放区。
+            </div>
+          </div>
+
+          <!-- ④ 女性・接客業 -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-yellow-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold bg-purple-950 text-purple-300 border border-purple-800 px-2.5 py-0.5 rounded-full">接客・サービス業・女性客</span>
+              <span class="text-lg">🛍️</span>
+            </div>
+            <h4 class="font-impact text-lg text-white mb-2">「お客様は神様じゃない」</h4>
+            <ul class="text-xs text-gray-300 space-y-2 border-t border-zinc-800 pt-3">
+              <li><strong class="text-yellow-300">カスハラ発散専用「クレーマー人形」ブース</strong><br><span class="text-zinc-500">（無理難題を言う相手に塩対応パンチ）</span></li>
+              <li><strong class="text-yellow-300">「お疲れ様コース」</strong><br><span class="text-zinc-500">（癒しの甘めベリーカクテル＆特製スイーツ）</span></li>
+            </ul>
+          </div>
+
+          <!-- ⑤ インバウンド -->
+          <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-yellow-400 transition md:col-span-2 lg:col-span-2">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-0.5 rounded-full">外国人観光客向け / Inbound</span>
+              <span class="text-lg">🗼</span>
+            </div>
+            <h4 class="font-impact text-lg text-white mb-2">「Japanese Salaryman Experience」</h4>
+            <p class="text-xs text-gray-300 leading-relaxed mb-3">
+              日本のリアルなサラリーマン文化・飲み会文化をエンタメとして体験できる特別ツアー型プラン。（English Menu & English speaking staff available）
+            </p>
+            <div class="flex flex-wrap gap-2 text-[11px] text-emerald-400">
+              <span class="bg-zinc-800 px-2 py-1 rounded">#DogezaExperience</span>
+              <span class="bg-zinc-800 px-2 py-1 rounded">#SalarymanStressRelief</span>
+              <span class="bg-zinc-800 px-2 py-1 rounded">#TokyoNightlife</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 名物フード -->
+      <div>
+        <h3 class="text-xl font-impact text-brand-red mb-6 flex items-center gap-2">
+          <i data-lucide="utensils" class="w-5 h-5"></i>
+          胃袋を満たして成仏させる「名物フード」
+        </h3>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+          
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">🥩</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">パワハラミ</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">噛みごたえ抜群！強火で炙った特上牛ハラミ</p>
+          </div>
+
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">🍢</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">詰められ豚バラ串</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">串の先までギュウギュウに詰められたジューシー串</p>
+          </div>
+
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">🥗</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">報連相サラダ</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">ほうれん草・蓮根・ソーセージの完璧な情報共有</p>
+          </div>
+
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">🍗</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">飲みニケーション盛り</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">断れないボリューム感！揚げ物盛り合わせ</p>
+          </div>
+
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">🌶️</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">今月ノルマ</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">達成困難な激辛レベル！激辛麻婆豆腐</p>
+          </div>
+
+          <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 hover:border-brand-red transition group">
+            <div class="text-3xl mb-2 group-hover:scale-125 transition-transform">📜</div>
+            <h5 class="font-impact text-sm sm:text-base text-white">始末書</h5>
+            <p class="text-[11px] text-zinc-400 mt-1">反省の意を込めてパリッと焼き上げた特大イカ焼き</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <section class="py-16 px-4 bg-zinc-950 border-t border-zinc-800">
+      <div class="max-w-4xl mx-auto text-center space-y-6">
+        <div class="inline-block p-4 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-brand-yellow mb-2">
+          <i data-lucide="map-pin" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-3xl font-impact text-white">
+          店舗情報＆アクセス
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto bg-zinc-900/60 p-6 rounded-2xl border border-zinc-800 text-sm">
+          <div>
+            <span class="text-zinc-500 font-bold block mb-1">店名</span>
+            <span class="text-white font-impact text-base">パワハラバー『Tsumesho-詰め所-』</span>
+          </div>
+          <div>
+            <span class="text-zinc-500 font-bold block mb-1">営業時間</span>
+            <span class="text-white font-medium">18:00 〜 翌3:00（L.O. 翌2:00）</span>
+            <span class="text-xs text-yellow-400 block mt-0.5">※ 金・土・祝前日は翌4:00まで</span>
+          </div>
+          <div>
+            <span class="text-zinc-500 font-bold block mb-1">最寄駅</span>
+            <span class="text-white font-medium">各線「新橋駅」烏森口 徒歩3分<br>（または各線「新宿駅」東口 徒歩5分）</span>
+          </div>
+          <div>
+            <span class="text-zinc-500 font-bold block mb-1">お支払い</span>
+            <span class="text-white font-medium">各種クレジットカード・交通系IC・PayPay</span>
+          </div>
+        </div>
+
+        <div class="pt-6">
+          <button onclick="openBookingModal()" class="bg-brand-red hover:bg-brand-crimson text-white font-impact text-xl px-10 py-5 rounded-2xl shadow-[0_0_30px_rgba(229,9,20,0.6)] hover:scale-105 transition-all inline-flex items-center gap-3 border-2 border-yellow-400">
+            <i data-lucide="calendar-check" class="w-6 h-6"></i>
+            WEBで席を確保する（入室予約）
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black py-12 px-4 border-t-2 border-zinc-900 text-center text-xs text-zinc-500 space-y-4">
+    <div class="flex items-center justify-center gap-2 text-brand-yellow font-impact text-xl">
+      <span>🍺</span> Tsumesho-詰め所-
+    </div>
+    <p class="max-w-md mx-auto text-zinc-400 text-sm font-bold">
+      「本日もお仕事、本当にお疲れ様でした！」
+    </p>
+    <p class="text-[11px] text-zinc-600">
+      当バーは職場での理不尽やストレスをユーモアと演劇的手法で健康的に解消することを目的としたエンターテインメント施設です。<br>
+      実際の暴力や人格攻撃を助長する意図は一切ございません。
+    </p>
+    <div class="pt-4 text-zinc-600">
+      &copy; 2026 Tsumesho - パワハラバー『詰め所』 All Rights Reserved.
+    </div>
+  </footer>
+
+  <div id="bookingModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-zinc-950 border-2 border-brand-yellow max-w-lg w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+      
+      <!-- 閉じるボタン -->
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white p-1">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <span class="text-xs bg-red-950 text-red-300 font-bold px-3 py-1 rounded-full border border-red-800">WEB席予約</span>
+        <h3 class="text-2xl font-impact text-white mt-2">『詰め所』入室予約フォーム</h3>
+        <p class="text-xs text-zinc-400 mt-1">ご希望のプランとお時間をお選びください</p>
+      </div>
+
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-left text-sm">
+        <div>
+          <label class="block text-xs font-bold text-zinc-300 mb-1">お名前（匿名・ニックネーム可）</label>
+          <input type="text" required placeholder="例：社畜太郎、限界会社員" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-white outline-none focus:border-brand-yellow">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-zinc-300 mb-1">ご希望プラン</label>
+            <select id="modalPlanSelect" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-brand-yellow text-xs sm:text-sm">
+              <option value="ジャブ（2,500円）">🥊 ジャブ (2,500円 / 60分)</option>
+              <option value="ストレート（4,500円）" selected>🥊🥊 ストレート (4,500円 / 90分)</option>
+              <option value="退職届プラン（7,000円）">📄 退職届 (7,000円 / 120分)</option>
+              <option value="団体貸切（3,500円〜）">👥 団体貸切 (3,500円〜)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-zinc-300 mb-1">人数</label>
+            <select class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-brand-yellow text-xs sm:text-sm">
+              <option>1名（カウンター希望）</option>
+              <option>2名</option>
+              <option>3〜4名</option>
+              <option>5名以上（部署貸切相談）</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-zinc-300 mb-1">ご来店希望日時</label>
+          <input type="datetime-local" required class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 text-white outline-none focus:border-brand-yellow text-xs sm:text-sm">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-zinc-300 mb-1">希望オプション（複数選択可）</label>
+          <div class="space-y-1.5 text-xs text-zinc-300">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="accent-red-600 rounded"> 机ドンテーブル (+500円)
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="accent-red-600 rounded"> 「言われ役」指名（元営業部長/ガチ詰め系）(+1,000円)
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="accent-red-600 rounded"> 土下座カード (+300円)
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-brand-red hover:bg-red-600 text-white font-impact text-lg py-3.5 rounded-xl shadow-lg transition-all mt-4 border border-yellow-400">
+          この内容で予約を申し込む
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Lucide Icons初期化
+    lucide.createIcons();
+
+    // モバイルメニュー開閉
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    function toggleMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+
+    // 予約モーダル制御
+    const bookingModal = document.getElementById('bookingModal');
+    const modalPlanSelect = document.getElementById('modalPlanSelect');
+
+    function openBookingModal() {
+      bookingModal.classList.remove('hidden');
+      bookingModal.classList.add('flex');
+    }
+
+    function closeBookingModal() {
+      bookingModal.classList.add('hidden');
+      bookingModal.classList.remove('flex');
+    }
+
+    function selectPlan(planName) {
+      if (modalPlanSelect) {
+        modalPlanSelect.value = planName;
+      }
+      openBookingModal();
+    }
+
+    bookingModal.addEventListener('click', (e) => {
+      if (e.target === bookingModal) closeBookingModal();
+    });
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      closeBookingModal();
+      
+      // トースト通知風アラート
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-brand-yellow text-zinc-950 font-impact px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border-2 border-black animate-bounce';
+      toast.innerHTML = '<span>✅</span> 入室予約リクエストを受付ました！お疲れ様でした！';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ==========================================
+    // Web Audio API による合成机ドン効果音
+    // ==========================================
+    let audioCtx = null;
+    function playSlamSound() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+
+        // 低音ドォン用オシレーター
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(30, now + 0.35);
+
+        gainNode.gain.setValueAtTime(1.0, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.4);
+
+        // 打撃ノイズ（バチッ感）
+        const bufferSize = audioCtx.sampleRate * 0.15;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, now);
+        filter.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.8, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+        whiteNoise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(audioCtx.destination);
+
+        whiteNoise.start(now);
+      } catch (err) {
+        console.log('Audio Context not allowed yet');
+      }
+    }
+
+    // ==========================================
+    // 机ドン・シミュレーター 演出ロジック
+    // ==========================================
+    const slamBtn = document.getElementById('slamBtn');
+    const deskVisual = document.getElementById('deskVisual');
+    const slamWord = document.getElementById('slamWord');
+    const slamCounter = document.getElementById('slamCounter');
+    let slamCount = 0;
+
+    const slamSoundsTexts = ['ドォォン！！', 'バァァン！！', '机ドン！！', 'おいコラァ！', 'ガタタッ！！'];
+
+    function triggerDeskSlam() {
+      slamCount++;
+      slamCounter.textContent = slamCount;
+
+      // 効果音再生
+      playSlamSound();
+
+      // 画面全体を揺らす
+      document.body.classList.remove('shake-active');
+      void document.body.offsetWidth; // リフロー
+      document.body.classList.add('shake-active');
+
+      // ランダムテキスト演出
+      const randomText = slamSoundsTexts[Math.floor(Math.random() * slamSoundsTexts.length)];
+      slamWord.textContent = randomText;
+      slamWord.style.opacity = '1';
+      slamWord.style.transform = `scale(${1 + Math.random() * 0.3}) rotate(${(Math.random() - 0.5) * 20}deg)`;
+
+      setTimeout(() => {
+        slamWord.style.opacity = '0';
+        slamWord.style.transform = 'scale(0.5)';
+      }, 350);
+    }
+
+    slamBtn.addEventListener('click', triggerDeskSlam);
+    deskVisual.addEventListener('click', triggerDeskSlam);
+
+    // ==========================================
+    // 愚痴シュレッダー・粉砕演出ロジック
+    // ==========================================
+    const complaintInput = document.getElementById('complaintInput');
+    const shredBtn = document.getElementById('shredBtn');
+    const shredStage = document.getElementById('shredStage');
+    const shredStatusText = document.getElementById('shredStatusText');
+    const shredCounter = document.getElementById('shredCounter');
+    let shreddedCount = 0;
+
+    function setSample(text) {
+      complaintInput.value = text;
+      complaintInput.focus();
+    }
+
+    shredBtn.addEventListener('click', () => {
+      const text = complaintInput.value.trim();
+      if (!text) {
+        shredStatusText.textContent = '⚠️ まずは吐き出したい言葉を入力してください！';
+        shredStatusText.classList.add('text-red-400');
+        setTimeout(() => {
+          shredStatusText.textContent = 'サンドバッグ人形待機中...🥊';
+          shredStatusText.classList.remove('text-red-400');
+        }, 2000);
+        return;
+      }
+
+      playSlamSound();
+      shreddedCount++;
+      shredCounter.textContent = shreddedCount;
+
+      // 粉砕アニメーション生成
+      const rect = shredStage.getBoundingClientRect();
+      for (let i = 0; i < 24; i++) {
+        const p = document.createElement('div');
+        p.className = 'shred-particle font-impact text-xs font-bold text-yellow-300';
+        p.textContent = text.slice(0, 4) || '怨';
+        
+        const tx = (Math.random() - 0.5) * 260 + 'px';
+        const ty = (Math.random() - 0.5) * 160 + 'px';
+        const rot = (Math.random() - 0.5) * 720 + 'deg';
+        
+        p.style.setProperty('--tx', tx);
+        p.style.setProperty('--ty', ty);
+        p.style.setProperty('--rot', rot);
+        p.style.left = '50%';
+        p.style.top = '50%';
+        
+        shredStage.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }
+
+      shredStatusText.textContent = `💥「${text.substring(0, 10)}...」を粉砕・完全成仏！`;
+      shredStatusText.classList.add('text-brand-yellow');
+
+      complaintInput.value = '';
+
+      setTimeout(() => {
+        shredStatusText.textContent = '心スッキリ！次をどうぞ🥊';
+        shredStatusText.classList.remove('text-brand-yellow');
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
